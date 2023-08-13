@@ -17,7 +17,7 @@
             "§", "¶", "©", "®", "™", "№", "°", "±", "µ", "¶", "•", "·", "¬", "£", "¤", "¥", "¦",
             // Add more unique characters here
         ];
-        $maxCharacterCount = 300;
+        $maxCharacterCount = 450;
         $fontSize = 13;
         $maxColumns = "canvasWidth / $fontSize";
         ?>
