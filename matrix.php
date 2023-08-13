@@ -9,65 +9,61 @@
     <canvas width="800" height="800" id="canvas"> </canvas>
     <script>
         <?php
-        $charArr = [
+        $characters = [
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
             "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6",
-            "7", "8", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", // Existing characters
-            "♫", "♣", "♠", "♦", "♪", "♯", "♩", "♬", "☼", "☽", "♀", "♂", "†", "‡", "◊", "∞", "‰",
+            "7", "8", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")","♫", "♣", "♠", "♦", "♪", 
+            "♯", "♩", "♬", "☼", "☽", "♀", "♂", "†", "‡", "◊", "∞", "‰",
             "§", "¶", "©", "®", "™", "№", "°", "±", "µ", "¶", "•", "·", "¬", "£", "¤", "¥", "¦",
             // Add more unique characters here
         ];
-        $maxCharCount = 500;
+        $maxCharacterCount = 300;
         $fontSize = 13;
-        $maxColumns = "cw / $fontSize";
+        $maxColumns = "canvasWidth / $fontSize";
         ?>
 
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
-        let cw = window.innerWidth;
-        let ch = window.innerHeight;
+        let canvasWidth = window.innerWidth;
+        let canvasHeight = window.innerHeight;
 
-        canvas.width = cw;
-        canvas.height = ch;
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
 
-        let maxColumns = <?php echo $maxColumns; ?>;
+        let maxCanvasColumns = <?php echo $maxColumns; ?>;
 
         window.addEventListener('resize', function(event) {
-            cw = window.innerWidth;
-            ch = window.innerHeight;
-            canvas.width = cw;
-            canvas.height = ch;
-            maxColumns = cw / <?php echo $fontSize; ?>;
+            canvasWidth = window.innerWidth;
+            canvasHeight = window.innerHeight;
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            maxCanvasColumns = canvasWidth / <?php echo $fontSize; ?>;
         }, true);
 
-        let fallingCharArr = [];
+        let fallingCharacters = [];
 
-        class FallingChar {
+        class FallingCharacter {
             constructor(x, y) {
                 this.x = x;
                 this.y = y;
+                this.fallSpeed = (Math.random() * <?php echo $fontSize; ?> * 3) / 6 + (<?php echo $fontSize; ?> * 3) / 6;
             }
 
-            draw(ctx) {
-                this.value = "<?php echo $charArr[array_rand($charArr)]; ?>";
-                this.speed = (Math.random() * <?php echo $fontSize; ?> * 3) / 6 + (<?php echo $fontSize; ?> * 3) / 6;
+            draw(context) {
+                this.value = "<?php echo $characters[array_rand($characters)]; ?>";
 
-                ctx.fillStyle = "rgba(0,255,0)";
-                ctx.font = <?php echo $fontSize; ?> + "px sans-serif";
+                context.fillStyle = "rgba(0,255,0)";
+                context.font = <?php echo $fontSize; ?> + "px sans-serif";
 
-                // Adjust the delay to control the animation speed
-                const delay = 100; // Add a delay of 100 milliseconds between frames
-                setTimeout(() => {
-                    ctx.fillText(this.value, this.x, this.y);
-                    this.y += this.speed;
+                context.fillText(this.value, this.x, this.y);
+                this.y += this.fallSpeed;
 
-                    if (this.y > ch) {
-                        this.y = (Math.random() * ch) / 2 - 50;
-                        this.x = Math.floor(Math.random() * maxColumns) * <?php echo $fontSize; ?>;
-                        this.speed = (-Math.random() * <?php echo $fontSize; ?> * 3) / 6 + (<?php echo $fontSize; ?> * 3) / 6;
-                    }
-                }, delay);
+                if (this.y > canvasHeight) {
+                    this.y = (Math.random() * canvasHeight) / 2 - 50;
+                    this.x = Math.floor(Math.random() * maxCanvasColumns) * <?php echo $fontSize; ?>;
+                    this.fallSpeed = (-Math.random() * <?php echo $fontSize; ?> * 3) / 6 + (<?php echo $fontSize; ?> * 3) / 6;
+                }
 
                 // ... remaining draw code ...
             }
@@ -76,27 +72,27 @@
         let frames = 0;
 
         let update = () => {
-            if (fallingCharArr.length < <?php echo $maxCharCount; ?>) {
-                let fallingChar = new FallingChar(
-                    Math.floor(Math.random() * maxColumns) * <?php echo $fontSize; ?>,
-                    (Math.random() * ch) / 2 - 50
+            if (fallingCharacters.length < <?php echo $maxCharacterCount; ?>) {
+                let fallingChar = new FallingCharacter(
+                    Math.floor(Math.random() * maxCanvasColumns) * <?php echo $fontSize; ?>,
+                    (Math.random() * canvasHeight) / 2 - 50
                 );
-                fallingCharArr.push(fallingChar);
+                fallingCharacters.push(fallingChar);
             }
 
             // Clear the canvas and redraw
             ctx.fillStyle = "rgba(0,0,0,0.11)";
-            ctx.fillRect(0, 0, cw, ch);
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-            for (let i = 0; i < fallingCharArr.length; i++) {
-                fallingCharArr[i].draw(ctx);
+            for (let i = 0; i < fallingCharacters.length; i++) {
+                fallingCharacters[i].draw(ctx);
             }
 
-            requestAnimationFrame(update);
             frames++;
+            requestAnimationFrame(update);
         };
 
-        update();
+        requestAnimationFrame(update);
     </script>
 </body>
 
