@@ -12,7 +12,7 @@ To run this Matrix screen, you'll need a local server environment like XAMPP or 
 2. **Clone the Repository:**
    - Clone this repository to your local machine using the following command:
      ```bash
-     git clone https://github.com/your-username/php-matrix.git
+     git clone https://github.com/EleventhJester/php-matrix.git
      ```
 
 3. **Navigate to Project Directory:**
