@@ -15,7 +15,6 @@
             "7", "8", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")","♫", "♣", "♠", "♦", "♪", 
             "♯", "♩", "♬", "☼", "☽", "♀", "♂", "†", "‡", "◊", "∞", "‰",
             "§", "¶", "©", "®", "™", "№", "°", "±", "µ", "¶", "•", "·", "¬", "£", "¤", "¥", "¦",
-            // Add more unique characters here
         ];
         $maxCharacterCount = 450;
         $fontSize = 13;
@@ -65,7 +64,6 @@
                     this.fallSpeed = (-Math.random() * <?php echo $fontSize; ?> * 3) / 6 + (<?php echo $fontSize; ?> * 3) / 6;
                 }
 
-                // ... remaining draw code ...
             }
         }
 
